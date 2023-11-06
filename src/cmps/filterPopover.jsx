@@ -1,6 +1,6 @@
 import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton, Button, PopoverArrow, Text, VStack, Flex, Icon } from '@chakra-ui/react'
 import { STATUSES } from "../data"
-import { ColorIcon } from './ColorIcon'
+import { ColorIcon } from './colorIcon'
 import { FilterIcon } from '../assets/img/icons/FilterIcon'
 
 

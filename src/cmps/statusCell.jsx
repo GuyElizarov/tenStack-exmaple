@@ -1,5 +1,5 @@
 import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
-import {ColorIcon} from './ColorIcon.jsx'
+import {ColorIcon} from './colorIcon.jsx'
 import { STATUSES } from "../data"
 
 export const StatusCell = ({ getValue, row, column, table }) => {

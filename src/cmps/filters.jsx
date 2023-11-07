@@ -16,11 +16,11 @@ export const Filters = ({ columnFilters, setColumnFilters }) => {
         <HStack mb='6' spacing={3}>
 
             <InputGroup size="sm" maxW="12rem" >
-                <InputLeftElement pointerEvents="none" bg={'gray.700'} >
+                <InputLeftElement pointerEvents="none"  >
                     <Icon as={SearchIcon} overflow={'hidden'} />
                 </InputLeftElement>
                 <Input type="text" variant="filled" placeholder="Task name"
-                    borderRadius={5} bg={'gray.700'}
+                    borderRadius={5} 
                     value={taskName} onChange={(ev) => onFilterChange("task", ev.target.value)} />
             </InputGroup>
             <FilterPopover columnFilters={columnFilters} setColumnFilters={setColumnFilters} />

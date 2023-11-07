@@ -99,12 +99,10 @@ export const TaskTable = () => {
             Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </Text>
         <ButtonGroup size={'sm'} isAttached>
-            <Button color={'white'} bg={"gray.700"}
-                onClick={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()}>
+            <Button   onClick={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()}>
                 {"<"}
             </Button>
-            <Button color={'white'} bg={"gray.700"}
-                onClick={() => table.nextPage()} isDisabled={!table.getCanNextPage()}>
+            <Button        onClick={() => table.nextPage()} isDisabled={!table.getCanNextPage()}>
                 {">"}
             </Button>
         </ButtonGroup>

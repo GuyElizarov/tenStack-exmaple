@@ -42,8 +42,7 @@ export const FilterPopover = ({ setColumnFilters, columnFilters }) => {
   return (
     <Popover  >
       <PopoverTrigger >
-        <Button bg={"gray.700"} color={'white'} 
-         leftIcon={<Icon as={FilterIcon} fontSize={18} />}
+        <Button leftIcon={<Icon as={FilterIcon} fontSize={18} />}
         >filter</Button>
       </PopoverTrigger>
 
@@ -52,7 +51,7 @@ export const FilterPopover = ({ setColumnFilters, columnFilters }) => {
         <PopoverArrow />
         <PopoverCloseButton />
 
-        <PopoverBody bg={"gray.700"}>
+        <PopoverBody >
           <Text fontSize="md" fontWeight="bold" mb={4}>
             Filter By:
           </Text>

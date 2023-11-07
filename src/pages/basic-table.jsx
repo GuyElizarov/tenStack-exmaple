@@ -3,7 +3,7 @@ import {
     Table, Thead, Tbody, Tfoot, Tr, Th,
     Td, TableContainer, VStack, ButtonGroup, Button, Box, Input, Spinner, IconButton,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,
-    ModalFooter, FormControl, FormLabel, Select,
+    ModalFooter, FormControl, FormLabel, Select, useColorModeValue,
 } from '@chakra-ui/react'
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -128,11 +128,11 @@ export const BasicTable = () => {
 
     const handleEdit = (person) => {
         setEditingPerson(person)
-        setIsEditModalOpen(true) 
+        setIsEditModalOpen(true)
     }
 
     const handleSubmitEdit = (person) => {
-        setIsEditModalOpen(false) 
+        setIsEditModalOpen(false)
         if (person.id) {
             dispatch(updatePerson(person))
         } else {
@@ -161,12 +161,12 @@ export const BasicTable = () => {
     })
 
     if (isLoadingPerson) return <Spinner />
-    return <VStack mt='100' w={'full'} p='35'>
-        <Button leftIcon={<AddIcon />} colorScheme='teal' onClick={handleAdd}>
-            Add Person
-        </Button>
-        <Input w={'30%'} type='text' placeholder='filter'
-            value={filtering} onChange={ev => setFiltering(ev.target.value)} />
+    return <VStack w={'full'} p='35'>
+            <Button leftIcon={<AddIcon />} colorScheme='teal' onClick={handleAdd}>
+                Add Person
+            </Button>
+            <Input maxWidth={'50%'} type='text' placeholder='filter'
+                value={filtering} onChange={ev => setFiltering(ev.target.value)} />
         <TableContainer>
             <Table variant='simple' size={'lg'}>
                 <Thead>
@@ -256,6 +256,8 @@ export const BasicTable = () => {
 
 const EditPersonModal = ({ person, isOpen, onClose, onSubmit }) => {
     const [formValues, setFormValues] = useState(person)
+    const bgColor = useColorModeValue('white', 'gray.800')
+    const textColor = useColorModeValue('gray.800', 'white')
 
     useEffect(() => {
         if (person) {
@@ -277,7 +279,7 @@ const EditPersonModal = ({ person, isOpen, onClose, onSubmit }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
-            <ModalContent as="form" onSubmit={handleFormSubmit}>
+            <ModalContent as="form" onSubmit={handleFormSubmit} bg={bgColor} color={textColor}>
                 <ModalHeader>Edit Person</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>

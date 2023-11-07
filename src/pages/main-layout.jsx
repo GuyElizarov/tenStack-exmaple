@@ -13,21 +13,14 @@ export const MainLayout = () => {
     return <Flex flexDir={'column'} minHeight={'100vh'} bg={bgColor[colorMode]} color={color[colorMode]} >
 
         <Flex className="header" h={'120px'} boxShadow={'0 4px 2px -2px #333'} alignItems={'center'}
-            width={'100%'} p={'35px'} gap={'35px'} justifyContent={'space-between'}>
+            width={'100%'} p={'35px'} gap={'10px'} justifyContent={'space-between'}>
             <ButtonGroup>
                 <Button colorScheme='green' onClick={() => navigate('/')}>Home</Button>
                 {/* <Button colorScheme='green' onClick={() => navigate('/responsive-table')}>Responsive Table</Button> */}
                 <Button colorScheme='green' onClick={() => navigate('/basic-table')}>Basic Table</Button>
             </ButtonGroup>
-            <IconButton
-                    icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                    isRound={true}
-                    size="md"
-                    alignSelf="flex-end"
-                    colorScheme='green'
-                    onClick={toggleColorMode}
-                    aria-label={`Switch to ${colorMode === 'light' ? 'dark' : 'light'} mode`}
-                />
+            <IconButton icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                isRound={true} size="md" colorScheme='green' onClick={toggleColorMode} />
         </Flex>
 
         <Flex flexGrow={'1'} >

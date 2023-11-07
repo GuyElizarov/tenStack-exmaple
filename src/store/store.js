@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
-import popReducer from './pop/popSlice'
+import personReducer from './person/personSlice'
 
 export const store = configureStore({
   reducer: {
-    pop: popReducer,
+    person: personReducer,
   },
 })

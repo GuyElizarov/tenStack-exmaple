@@ -6,7 +6,7 @@ export const StatusCell = ({ getValue, row, column, table }) => {
     const { updateData } = table.options.meta
     const { name, color } = getValue() || {}
     
-    return <Menu isLazy offset={[0, 0]} flip={false} autoSelect={'false'}  >
+    return <Menu isLazy offset={[0, 0]} flip={false} autoSelect={'false'}  w={'full'} >
         <MenuButton h={"100%"} w={"100%"} textAlign={'left'} p={1.5} bg={color || 'transparent'} color={'gray.900'}>
             {name}
         </MenuButton>

@@ -1,9 +1,8 @@
 
 import {
-    Table, Thead, Tbody, Tfoot, Tr, Th,
-    Td, TableContainer, VStack, ButtonGroup, Button, Box, Input, Spinner, IconButton,
+    Table, Thead, Tbody,  Tr, Th, Td, TableContainer, VStack, ButtonGroup, Button, Box, Input, Spinner, IconButton,
     Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,
-    ModalFooter, FormControl, FormLabel, Select, useColorModeValue,
+    ModalFooter, FormControl, FormLabel, Select, useColorModeValue, Icon,
 } from '@chakra-ui/react'
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table'
 import { useEffect, useState } from 'react'
@@ -30,7 +29,6 @@ const columns = [
     {
         header: 'ID',
         accessorKey: 'id',
-        footer: 'ID',
     },
 
     // regular name display by showing two columns separately:
@@ -38,12 +36,10 @@ const columns = [
     // {
     //     header: 'First name',
     //     accessorKey: 'first_name',
-    //     footer: 'First name',
     // },
     // {
     //     header: 'Last name',
     //     accessorKey: 'last_name',
-    //     footer: 'Last name',
     // },
 
     // combining tow filed from the data to one column:
@@ -52,7 +48,6 @@ const columns = [
 
         header: 'Full name',
         accessorFn: row => `${row.first_name} ${row.last_name}`,
-        footer: 'Full name',
     },
 
     // creates another header above the tow column
@@ -65,29 +60,25 @@ const columns = [
     //         {
     //             header: 'First ',
     //             accessorKey: 'first_name',
-    //             footer: 'First name',
     //         },
     //         {
     //             header: 'Last ',
     //             accessorKey: 'last_name',
-    //             footer: 'Last name',
     //         },
     //     ]
     // },
     {
         header: 'Email',
         accessorKey: 'email',
-        footer: 'Email',
     },
     {
         header: 'Gender',
         accessorKey: 'gender',
-        footer: 'Gender',
+        enableSorting: false
     },
     {
         header: 'Date of birth',
         accessorKey: 'dob',
-        footer: 'Date of birth',
         cell: info => DateTime.fromISO(info.getValue()).toLocaleString(DateTime.DATETIME_MED),
         enableSorting: false,
     },
@@ -101,9 +92,10 @@ export const BasicTable = () => {
     const [sorting, setSorting] = useState([])
     const [filtering, setFiltering] = useState('')
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [editingPerson, setEditingPerson] = useState(null)
     const dispatch = useDispatch()
-
-
+    const bgColor = useColorModeValue('white', 'gray.800')
+    const textColor = useColorModeValue('gray.800', 'white')
 
     useEffect(() => {
         dispatch(loadPersons())
@@ -113,7 +105,6 @@ export const BasicTable = () => {
         setData(persons)
     }, [persons])
 
-    const [editingPerson, setEditingPerson] = useState(null)
 
     const handleAdd = () => {
         const newPerson = personService.getEmptyPerson()
@@ -158,40 +149,31 @@ export const BasicTable = () => {
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
         getFilteredRowModel: getFilteredRowModel(),
+        columnResizeMode: "onChange"
     })
 
     if (isLoadingPerson) return <Spinner />
     return <VStack w={'full'} p='35'>
-            <Button leftIcon={<AddIcon />} colorScheme='teal' onClick={handleAdd}>
-                Add Person
-            </Button>
-            <Input maxWidth={'50%'} type='text' placeholder='filter'
-                value={filtering} onChange={ev => setFiltering(ev.target.value)} />
+        <Button leftIcon={<AddIcon />} colorScheme='teal' onClick={handleAdd}>
+            Add Person
+        </Button>
+        <Input maxWidth={'50%'} type='text' placeholder='filter'
+            value={filtering} onChange={ev => setFiltering(ev.target.value)} />
         <TableContainer>
-            <Table variant='simple' size={'lg'}>
+            <Table variant='simple'  size={'lg'} >
                 <Thead>
                     {table.getHeaderGroups().map(headerGroup =>
                         <Tr key={headerGroup.id}>
                             {headerGroup.headers.map(header =>
-                                // implement on the header itself (state needed): 
-
-                                <Th key={header.id} w={header.getSize()} onClick={header.column.getToggleSortingHandler()} >
-
+                                  <Th key={header.id} w={header.getSize()}  position={'relative'}>
+                                    {header.column.getCanSort() && <UpDownIcon onClick={header.column.getToggleSortingHandler()} position={'relative'} left={-1} top={'-2px'}  />}
                                     {header.isPlaceholder
                                         ? null
-                                        : <> {flexRender(header.column.columnDef.header, header.getContext)}
-                                            {{ asc: " 🔼", desc: " 🔽", }[header.column.getIsSorted()]}</>}
+                                        : flexRender(header.column.columnDef.header, header.getContext)}
+                                         {{ asc: " 🔼", desc: " 🔽", }[header.column.getIsSorted()]}
+                                <Box className={`resizer ${header.column.getIsResizing() ? "isResizing" : ""}`}
+                                onMouseDown={header.getResizeHandler()} onTouchStart={header.getResizeHandler()}> </Box>
                                 </Th>
-                                // implement on the icon itself (no state needed): 
-
-
-                                // <Th key={header.id} w={header.getSize()}>
-                                //     {header.column.getCanSort() && <UpDownIcon onClick={header.column.getToggleSortingHandler()} mr='2' />}
-                                //     {header.isPlaceholder
-                                //         ? null
-                                //         : flexRender(header.column.columnDef.header, header.getContext)}
-                                //          {{ asc: " 🔼", desc: " 🔽", }[header.column.getIsSorted()]}
-                                // </Th>
                             )}
                         </Tr>)}
                 </Thead>
@@ -207,36 +189,24 @@ export const BasicTable = () => {
                     ))}
 
                 </Tbody>
-                {/* <Tfoot>
-                    {table.getFooterGroups().map(footerGroup =>
-                        <Tr key={footerGroup.id}>
-                            {footerGroup.headers.map(header =>
-                                <Th key={header.id} w={header.getSize()}>
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(header.column.columnDef.header, header.getContext)}
-                                </Th>
-                            )}
-                        </Tr>)}
-                </Tfoot> */}
             </Table>
         </TableContainer>
 
-        <ButtonGroup size={'sm'} isAttached>
-            <Button color={'white'}
+        <ButtonGroup size={'sm'} isAttached  bg={bgColor} color={textColor}>
+            <Button  
                 onClick={() => table.setPageIndex(0)} isDisabled={!table.getCanPreviousPage()}>
                 {"First Page"}
             </Button>
-            <Button color={'white'}
+            <Button 
                 onClick={() => table.previousPage()} isDisabled={!table.getCanPreviousPage()}>
                 {"<"}
             </Button>
 
-            <Button color={'white'}
+            <Button 
                 onClick={() => table.nextPage()} isDisabled={!table.getCanNextPage()}>
                 {">"}
             </Button>
-            <Button color={'white'}
+            <Button 
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)} isDisabled={!table.getCanNextPage()}>
                 {"Last Page"}
             </Button>
@@ -261,7 +231,7 @@ const EditPersonModal = ({ person, isOpen, onClose, onSubmit }) => {
 
     useEffect(() => {
         if (person) {
-            setFormValues(person) // Initialize form with person data when the modal opens
+            setFormValues(person)
         }
     }, [person, isOpen])
 
@@ -324,6 +294,8 @@ const EditPersonModal = ({ person, isOpen, onClose, onSubmit }) => {
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Bigender">Bigender</option>
+                            <option value="Bigender">Bigender</option>
+                            <option value="Non-binary	">Non-binary</option>
                         </Select>
                     </FormControl>
 

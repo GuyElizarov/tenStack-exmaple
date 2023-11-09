@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import { Home } from './pages/home'
-import { MainLayout } from './pages/main-layout.jsx'
-import { BasicTable } from "./pages/basic-table.jsx";
-import { ResponsiveBasicTable } from "./pages/responsive-basic-table.jsx";
+import { User } from './pages/user'
+import { Login } from './pages/login.jsx'
+import { MainLayout } from './cmps/main-layout.jsx'
+import { Product } from "./pages/product.jsx";
+import { Cart } from "./pages/cart.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -11,18 +12,21 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Product />,
       },
       {
-        path: "/responsive-table",
-        element: <ResponsiveBasicTable />,
+        path: "/user",
+        element: <User />,
       },
       {
-        path: "/basic-table",
-        element: <BasicTable />,
+        path: "/cart",
+        element: <Cart />,
       },
     ]
   },
-  
+  {
+    path: "/login",
+    element: <Login />,
+  },
 
 ])

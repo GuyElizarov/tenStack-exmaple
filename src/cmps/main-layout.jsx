@@ -2,6 +2,7 @@ import { Button, ButtonGroup, Center, Flex, Heading, IconButton, useColorMode } 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { useNavigate } from "react-router-dom"
 import { Outlet } from "react-router-dom"
+import { userService } from "../services/userService"
 
 export const MainLayout = () => {
     const navigate = useNavigate()
@@ -15,12 +16,16 @@ export const MainLayout = () => {
         <Flex className="header" h={'120px'} boxShadow={'0 4px 2px -2px #333'} alignItems={'center'}
             width={'100%'} p={'35px'} gap={'10px'} justifyContent={'space-between'}>
             <ButtonGroup>
-                <Button colorScheme='green' onClick={() => navigate('/')}>Home</Button>
-                {/* <Button colorScheme='green' onClick={() => navigate('/responsive-table')}>Responsive Table</Button> */}
-                <Button colorScheme='green' onClick={() => navigate('/basic-table')}>Basic Table</Button>
+                <Button colorScheme='green' onClick={() => navigate('/')}>Products</Button>
+                <Button colorScheme='green' onClick={() => navigate('/user')}>Users</Button>
+                <Button colorScheme='green' onClick={() => navigate('/cart')}>Cart</Button>
             </ButtonGroup>
-            <IconButton icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-                isRound={true} size="md" colorScheme='green' onClick={toggleColorMode} />
+            <ButtonGroup>
+                <Button colorScheme='blue' onClick={() => navigate('/login')}>Login</Button>
+                <Button colorScheme='red' onClick={() => {userService.logout();navigate('/login')}}>Logout</Button>
+                <IconButton icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                    isRound={true} size="md" colorScheme='blue' onClick={toggleColorMode} />
+            </ButtonGroup>
         </Flex>
 
         <Flex flexGrow={'1'} >
@@ -28,5 +33,5 @@ export const MainLayout = () => {
         </Flex>
 
 
-    </Flex>
+    </Flex >
 }

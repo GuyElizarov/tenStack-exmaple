@@ -31,7 +31,7 @@ export const Login = () => {
         e.preventDefault();
         try {
             const token = await userService.login(credentials);
-            navigate('/product')
+            navigate('/')
             toast({
                 title: "Login successful.",
                 description: "You have successfully logged in.",
